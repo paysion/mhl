@@ -1,0 +1,30 @@
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### IntelliJ Idea ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### 忽略所有的 node_modules ###
+**/node_modules
+
+# 编译出的类文件
+*.class
+
+# 日志文件
+*.log
+
+# 包文件
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
