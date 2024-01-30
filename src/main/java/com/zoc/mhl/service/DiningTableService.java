@@ -24,9 +24,14 @@ public class DiningTableService {
         return update > 0;
     }
 
-    // 更新餐桌状态
+    // 更新餐桌状态为”就餐中“
     public boolean updateDiningTableState(int diningTableId){
         return diningTableDao.update("update diningTable set state='就餐中' where id=?",diningTableId) > 0;
+    }
+
+    // 结账完重置餐桌状态
+    public boolean resetDiningTable(int diningTableId){
+        return diningTableDao.update("update diningTable set state='空',orderName='',orderTel='' where id=?",diningTableId) > 0;
     }
 
 }

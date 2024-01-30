@@ -126,12 +126,51 @@ public class MHLView {
             return;
         }
     }
-    
+
+    // 查看账单
     public void listBill() {
         List<Bill> bills = billService.list();
         System.out.println("\n编号\t\t菜品号\t\t菜品量\t\t金额\t\t桌号\t\t日期\t\t\t\t\t\t\t状态");
         for (Bill bill : bills) {
             System.out.println(bill);
+        }
+    }
+
+    // 结账
+    public void payBill(){
+        System.out.println("==============结账服务============");
+        System.out.print("请选择要结账的餐桌编号(-1退出): ");
+        int diningTableId = Utility.readInt();
+        if (diningTableId == -1) {
+            System.out.println("=============取消结账============");
+            return;
+        }
+        // 验证餐桌是否存在
+        DiningTable diningTable = diningTableService.getDingTableById(diningTableId);
+        if (diningTable == null) {
+            System.out.println("=============结账的餐桌不存在============");
+            return;
+        }
+        // 验证餐桌是否有需要结账的账单
+        if (!billService.hasPayBillByDiningTableId(diningTableId)) {
+            System.out.println("=============该餐位没有未结账账单============");
+            return;
+        }
+        System.out.print("结账方式(现金/支付宝/微信)回车表示退出: ");
+        String payMode = Utility.readString(20, "");//说明如果回车，就是返回 ""
+        if ("".equals(payMode)) {
+            System.out.println("=============取消结账============");
+            return;
+        }
+        char key = Utility.readConfirmSelection();
+        if (key == 'Y') {
+            if (billService.payBill(diningTableId,payMode)) {
+                System.out.println("=============完成结账============");
+            } else {
+                System.out.println("=============结账失败============");
+            }
+        } else {
+            System.out.println("=============取消结账============");
         }
     }
 
@@ -185,8 +224,8 @@ public class MHLView {
                                     listBill();
                                     break;
                                 case "6":
-                                    // todo 结账
-                                    System.out.println("结账");
+                                    // 结账
+                                    payBill();
                                     break;
                                 case "9":
                                     loop = false;
